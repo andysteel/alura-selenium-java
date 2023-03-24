@@ -1,40 +1,30 @@
 package br.com.alura.leilao.login;
 
+import br.com.alura.leilao.PageObject;
 import br.com.alura.leilao.leiloes.LeilaoPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
-public class LoginPage {
+public class LoginPage extends PageObject {
 
     private static final String HTTP_LOGIN = "http://localhost:8080/login";
     private static final String HTTP_LOGIN_ERROR = "http://localhost:8080/login?error";
-    private WebDriver browser;
 
     public LoginPage() {
-        System.setProperty("webdriver.chrome.driver","src/test/resources/drivers/chromedriver");
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--remote-debugging-port=9222");
-
-        this.browser = new ChromeDriver(options);
+        super(null);
         this.browser.navigate().to(HTTP_LOGIN);
     }
 
-    public void fechar() {
-        this.browser.quit();
-    }
 
     public void preencherFormularioDeLogin(String username, String password) {
         this.browser.findElement(By.id("username")).sendKeys(username);
         this.browser.findElement(By.id("password")).sendKeys(password);
+        this.tirarFoto();
     }
 
     public LeilaoPage efetuaLogin() {
         this.browser.findElement(By.id("login-form")).submit();
+        this.tirarFotoElementoEspecifico("usuario-logado", null);
         return new LeilaoPage(this.browser);
     }
 

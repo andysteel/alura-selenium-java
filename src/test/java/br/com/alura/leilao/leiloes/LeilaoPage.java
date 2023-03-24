@@ -1,23 +1,15 @@
 package br.com.alura.leilao.leiloes;
 
+import br.com.alura.leilao.PageObject;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
-public class LeilaoPage {
-
+public class LeilaoPage extends PageObject {
     private static final String URL_CADASTRO_LEILAO = "http://localhost:8080/leiloes/new";
-    private final WebDriver browser;
 
     public LeilaoPage(WebDriver browser) {
-        this.browser = browser;
-    }
-
-    public void fechar() {
-        this.browser.quit();
+        super(browser);
     }
 
     public CadastroLeilaoPage carregarFormulario() {
@@ -30,6 +22,8 @@ public class LeilaoPage {
         WebElement colunaNome = linhaDaTabela.findElement(By.cssSelector("td:nth-child(1)"));
         WebElement colunaDataAbertura = linhaDaTabela.findElement(By.cssSelector("td:nth-child(2)"));
         WebElement colunaValor = linhaDaTabela.findElement(By.cssSelector("td:nth-child(3)"));
+
+        this.tirarFotoElementoEspecifico(null, "#tabela-leiloes tbody tr:last-child");
 
         return colunaNome.getText().equals(nome)
                 && colunaDataAbertura.getText().equals(dataAbertura)
